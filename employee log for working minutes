@@ -1,0 +1,29 @@
+CREATE TABLE employeelog (
+    id DATETIME,
+    empid INT
+);
+
+INSERT INTO employeelog (id, empid) VALUES
+('2024-01-13 09:25', 10),
+('2024-01-13 19:35', 10),
+('2024-01-16 09:10', 10),
+('2024-01-16 18:10', 10),
+('2024-02-11 09:07', 10),
+('2024-02-11 19:20', 10),
+('2024-02-17 08:40', 17),
+('2024-02-17 18:04', 17),
+('2024-03-23 09:20', 10),
+('2024-03-23 18:30', 10);AC
+
+select * from employeelog
+
+with cte as
+(
+select empid, id, lead(id,1) over (partition by day(id), empid order by id asc) as nextrow from employeelog
+)
+select empid, id,nextrow, DATEDIFF(minute,id,nextrow)/60.0 from cte 
+where nextrow is not null
+--------------------
+select empid, day(id) as day, DATEDIFF(minute,min(id),max(id))/60.0
+from employeelog group by empid, day(id)
+
