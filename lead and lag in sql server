@@ -1,3 +1,6 @@
+Both the LEAD() and LAG() window functions are used to access a row at a specific offset from the current row.
+
+However, the LEAD() function retrieves a value from a row that follows the current row, whereas the LAG() function retrieves a value from a row that precedes the current row.
 
 drop table employeesalaries
 
