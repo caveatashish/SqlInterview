@@ -1,0 +1,20 @@
+CREATE TABLE Students (
+    sname VARCHAR(50),
+    sid VARCHAR(10),
+    marks INT
+);
+
+
+INSERT INTO Students (sname, sid, marks)
+VALUES ('A', 'X', 75),
+       ('A', 'Y', 75),
+       ('A', 'Z', 80),
+       ('B', 'X', 90),
+       ('B', 'Y', 91),
+       ('B', 'Z', 75);
+
+select * from Students
+
+with cte as (select sname, sid, marks, ROW_NUMBER() over ( partition by sname order by marks desc)  as rnum
+from Students )
+select * from cte where rnum <=2
