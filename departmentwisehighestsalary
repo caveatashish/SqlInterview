@@ -33,3 +33,13 @@ select  e.name,e.salary,e.department_id from
 Employees2 e join cte c 
 on e.employee_id = c.employee_id
 where c.ran <=1
+
+------using rank function so if two or more employee is having maximum salary within department
+with cte(employee_id, department_id, salary, ran)
+as
+(select employee_id, department_id, salary, rank() over(partition by department_id order by salary desc) as ran from Employees2 )
+
+select  e.name,e.salary,e.department_id from 
+Employees2 e join cte c 
+on e.employee_id = c.employee_id
+where c.ran =1
