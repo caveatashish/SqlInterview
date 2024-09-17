@@ -1,0 +1,19 @@
+
+drop table employeesalaries
+
+CREATE TABLE EmployeeSalaries (
+    name VARCHAR(100),
+    salary DECIMAL(10, 2)
+);
+
+INSERT INTO EmployeeSalaries (name, salary)
+VALUES ('Amanda', 130),
+       ('Brandon', 90),
+       ('Carlita', 80);
+
+
+select name, salary, lead(e.salary,1) over (order by e.salary asc) as next_salary
+from EmployeeSalaries e;
+
+select name,salary, lag(e.salary,1) over (order by e.salary asc) as prev_salary
+from EmployeeSalaries e
