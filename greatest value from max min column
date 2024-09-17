@@ -18,3 +18,5 @@ when (col2-col3) > 0 then col2
 else col3 
 end as 'maxvalue'
 from maxmin
+-----------------------
+select col1, col2,col3, GREATEST(col2,col3) as maxvalue from maxmin
