@@ -1,0 +1,31 @@
+ROW_NUMBER requires an ORDER BY clause syntactically. 
+You cannot use it without one. 
+SELECT NULL is a hack to shut up the error while not enforcing any particular order. 
+In this case we don't need to enforce any order, so the fastest option is to use SELECT NULL.
+
+drop table input
+
+CREATE TABLE input (
+    category VARCHAR(50),
+    brand_name VARCHAR(50)
+);
+
+INSERT INTO input (category, brand_name) VALUES
+('chocolates', '5-star'),
+(NULL, 'dairymilk'),
+(NULL, 'perk'),
+(NULL, 'eclair'),
+('Biscuits', 'Britania'),
+(NULL, 'goodday'),
+(NULL, 'boost');
+
+select * from input order by (select null)
+
+with cte as (
+select *, ROW_NUMBER() over (order by (select null)) as rnum
+from input),
+
+cte2 as (
+select *,  count(category) over (order by rnum) as cnt from cte
+)
+select FIRST_VALUE(category) over ( partition by cnt order by rnum), brand_name from cte2
