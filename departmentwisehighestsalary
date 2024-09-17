@@ -1,0 +1,35 @@
+CREATE TABLE Employees2 (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    salary DECIMAL(10, 2),
+    department_id INT
+);
+
+INSERT INTO Employees2 (employee_id, name, salary, department_id)
+VALUES (1, 'Emma Thompson', 3800, 1),
+       (2, 'Daniel Rodriguez', 2230, 1),
+       (3, 'Olivia Smith', 2000, 1),
+       (4, 'Noah Johnson', 6800, 2),
+       (5, 'Sophia Martinez', 1750, 1),
+       (8, 'William Davis', 6800, 2),
+       (10, 'James Anderson', 4000, 1);
+
+
+CREATE TABLE Departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100)
+);
+
+INSERT INTO Departments (department_id, department_name)
+VALUES (1, 'Data Analytics'),
+       (2, 'Data Science');
+
+-------------------
+with cte(employee_id, department_id, salary, ran)
+as
+(select employee_id, department_id, salary, ROW_NUMBER() over(partition by department_id order by salary desc) as ran from Employees2 )
+
+select  e.name,e.salary,e.department_id from 
+Employees2 e join cte c 
+on e.employee_id = c.employee_id
+where c.ran <=1
