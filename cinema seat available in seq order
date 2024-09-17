@@ -1,0 +1,31 @@
+-- seat should be availble in sequence order
+
+drop table cinemas_tbl
+
+CREATE TABLE cinemas_tbl (
+    seat_id INT,
+    free int
+);
+
+INSERT INTO cinemas_tbl (seat_id, free)
+VALUES (1, 1),
+       (2, 0),
+       (3, 1),
+       (4, 0),
+       (5, 1),
+       (6, 1),
+       (7, 1),
+       (8, 0),
+       (9, 1),
+       (10, 1);
+
+select * from cinemas_tbl
+
+with cte as (
+select seat_id, free, 
+(lag(free,1) over (order by seat_id asc)* free) as prev_free,
+(lead(free,1) over (order by seat_id asc)*free) as next_free
+from cinemas_tbl )
+
+select * from cte where prev_free = 1 or next_free = 1
+
