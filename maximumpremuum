@@ -39,3 +39,10 @@ as
 select  c.first_name,pp.monthly_premium
 from Customers c join policy_premium pp on c.customer_id = pp.customer_id
 order by pp.monthly_premium desc
+
+-----------
+
+select  c.first_name,sum(pp.monthly_premium)
+from Customers c join Policies pp on c.customer_id = pp.customer_id
+group by pp.customer_id,c.first_name
+order by sum(pp.monthly_premium) desc
