@@ -1,0 +1,28 @@
+CREATE TABLE Flights (
+    cust_id INT,
+    flight_id VARCHAR(10),
+    origin VARCHAR(50),
+    destination VARCHAR(50)
+);
+
+
+INSERT INTO Flights (cust_id, flight_id, origin, destination)
+VALUES (1, 'SG1234', 'Delhi', 'Hyderabad'),
+       (1, 'SG3476', 'Kochi', 'Mangalore'),
+       (1, '69876', 'Hyderabad', 'Kochi'),
+       (2, '68749', 'Mumbai', 'Varanasi'),
+       (2, 'SG5723', 'Varanasi', 'Delhi');
+
+select * from Flights
+
+with oo as (select f1.cust_id, f1.origin from
+Flights f1 left join Flights f2 on f1.origin = f2.destination and f1.cust_id = f2.cust_id
+where f2.cust_id is null),
+
+dd as (select f1.cust_id,f1.destination from
+Flights f1 left join Flights f2 on f1.destination = f2.origin and f1.cust_id = f2.cust_id
+where f2.cust_id is null)
+
+select o.cust_id,origin,destination 
+from oo o join dd d
+on o.cust_id = d.cust_id
