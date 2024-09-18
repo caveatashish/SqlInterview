@@ -1,0 +1,20 @@
+CREATE TABLE car_distances (
+    cars VARCHAR(40),
+    days VARCHAR(10),
+    cumulative_distance INTEGER
+);
+
+INSERT INTO car_distances (cars, days, cumulative_distance) VALUES
+('Car1', 'Day1', 50),
+('Car1', 'Day2', 100),
+('Car1', 'Day3', 200),
+('Car2', 'Day1', 0),
+('Car3', 'Day1', 0),
+('Car3', 'Day2', 50),
+('Car3', 'Day3', 50),
+('Car3', 'Day4', 100);
+
+
+-- Lag Function take the previous record by 1 step and if there is no record consider it 0 instead of null
+select cars,days,cumulative_distance, cumulative_distance- LAG(cumulative_distance,1,0) over (partition by cars order by days asc)
+from car_distances
