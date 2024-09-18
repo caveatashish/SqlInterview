@@ -1,0 +1,36 @@
+with  cte as
+(select 1 as num
+union all
+select num + 1 from cte where num < 10
+)
+select * from cte
+--------------------------------------
+CREATE TABLE employeesrecursive (
+    id int PRIMARY KEY,
+    name VARCHAR(100),
+    manager_id int,
+    salary int,
+    designation VARCHAR(100)
+);
+
+INSERT INTO employeesrecursive (id, name, manager_id, salary, designation) VALUES
+(1, 'Shripadh', NULL, 10000, 'CEO'),
+(2, 'Satya', 5, 1400, 'Software Engineer'),
+(3, 'Jia', 5, 500, 'Data Analyst'),
+(4, 'David', 5, 1800, 'Data Scientist'),
+(5, 'Michael', 7, 3000, 'Manager'),
+(6, 'Arvind', 7, 2400, 'Architect'),
+(7, 'Asha', 1, 4200, 'CTO'),
+(8, 'Maryam', 7, 3500, 'Manager'),
+(9, 'Reshma', 8, 2000, 'Business Analyst'),
+(10, 'Akshay', 8, 2500, 'Java Developer');
+
+select * from employeesrecursive
+
+with cte as
+(select id,name,manager_id,designation from employeesrecursive  where name = 'jia'
+union all
+select e.id,e.name,e.manager_id,e.designation from cte c join employeesrecursive e on e.id = c.manager_id
+)
+select * from cte
+ 
