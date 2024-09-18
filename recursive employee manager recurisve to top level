@@ -28,9 +28,10 @@ INSERT INTO employeesrecursive (id, name, manager_id, salary, designation) VALUE
 select * from employeesrecursive
 
 with cte as
-(select id,name,manager_id,designation from employeesrecursive  where name = 'jia'
+(select id,name,manager_id,designation, 1 as lvl from employeesrecursive  where name = 'jia'
 union all
-select e.id,e.name,e.manager_id,e.designation from cte c join employeesrecursive e on e.id = c.manager_id
+select e.id,e.name,e.manager_id,e.designation, lvl+1  from cte c join employeesrecursive e on e.id = c.manager_id
 )
 select * from cte
+ 
  
