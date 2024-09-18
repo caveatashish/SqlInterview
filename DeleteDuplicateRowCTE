@@ -1,3 +1,5 @@
+Drop table Employee
+
 CREATE TABLE EMPLOYEE (
   empId int,
   name varchar(15),
