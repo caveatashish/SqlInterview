@@ -43,5 +43,15 @@ select e.id,e.name,e.manager_id,e.designation, lvl+1  from cte c join employeesr
 )
 select * from cte
  
+ ----------------------
+---- adding  manager name to the query
+with cte as
+(select id,name,manager_id,designation, 1 as lvl from employeesrecursive  where name = 'Shripadh'
+union all
+select e.id,e.name,e.manager_id,e.designation, lvl+1  from cte c join employeesrecursive e on e.manager_id = c.id
+)
+select c.id,c.name, e.name, c.lvl 
+from cte c left join employeesrecursive e
+on c.manager_id = e.id
  
  
