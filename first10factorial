@@ -1,0 +1,13 @@
+with first10factorial ( n, result)
+as
+(
+-- Anchor
+select 1,1
+union all
+
+--recursive
+select n+1, result * (n+1) from first10factorial
+where n<10
+)
+
+select * from first10factorial
