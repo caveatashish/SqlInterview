@@ -25,3 +25,13 @@ t2.id = t3.id -1
 and t1.num = t2.num
 and t2.num = t3.num
 
+----- using cte
+with cte
+as
+(
+select id, num, 
+lag(num,1) over (order by id asc) as pre,
+lead(num,1) over (order by id asc) as nex from Series
+)
+select id, num from cte
+where num = pre or num = nex;
